@@ -26,6 +26,14 @@ This project analyzes mental health trends among tech workers using a public sur
 - RMarkdown for reporting
 
 ---
+## 📑 Table of Contents
+- [Project Overview](#project-overview)
+- [Visualizations](#visualizations)
+- [Statistical Tests](#statistical-tests)
+- [Logistic Regression](#logistic-regression)
+- [View Full Report](#view-full-report)
+- [Key Insights](#key-insights)
+---
 
 ## 📁 Project Structure
 mental-health-tech-survey-R/
