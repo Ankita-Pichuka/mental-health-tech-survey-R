@@ -54,8 +54,8 @@ mental-health-tech-survey-R/
 
 ---
 
-## 📄 View Full Report
-👉 [**Click here to view the full HTML report**](https://github.com/Ankita-Pichuka/mental-health-tech-survey-R/blob/main/mental-health-report.html)
+## 📄 View Full Report (Live)
+👉 [Click here to view the full interactive HTML report](https://ankita-pichuka.github.io/mental-health-tech-survey-R/mental-health-report.html)
 
 ---
 
