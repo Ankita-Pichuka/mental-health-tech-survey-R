@@ -28,3 +28,53 @@ This project analyzes mental health trends among tech workers using a public sur
 ---
 
 ## 📁 Project Structure
+mental-health-tech-survey-R/
+├── data/
+│   └── mental-health-tech-survey.csv
+├── scripts/
+│   └── analysis.R
+├── outputs/
+│   └── plots/
+├── mental-health-report.Rmd
+├── mental-health-report.html
+├── README.md
+
+---
+
+## 🔎 Key Analysis
+- Data cleaning and standardization (e.g., gender normalization)
+- Exploratory Data Analysis with `ggplot2`
+- Chi-Square Tests for association
+- Logistic Regression to predict treatment-seeking behavior
+
+---
+
+## 📈 Sample Visual
+![Treatment by Gender](outputs/plots/gender_vs_treatment.png)
+
+---
+
+## 📄 View Full Report
+👉 [**Click here to view the full HTML report**](https://github.com/Ankita-Pichuka/mental-health-tech-survey-R/blob/main/mental-health-report.html)
+
+---
+
+## ✅ Key Insights
+- Individuals with a **family history of mental illness** are significantly more likely to seek treatment.
+- Gender has a statistically significant relationship with treatment-seeking.
+- Remote work does **not** show a strong relationship with treatment behavior.
+
+---
+
+## 🛠 Tools Used
+- R (tidyverse, ggplot2, janitor, glm)
+- RMarkdown for documentation
+- Git & GitHub for version control
+
+---
+
+## 🙋‍♀️ Author
+**Ankita Pichuka**  
+Graduate Student – Analytics, Northeastern University  
+[LinkedIn](https://www.linkedin.com/in/ankita-pichuka/)
+
