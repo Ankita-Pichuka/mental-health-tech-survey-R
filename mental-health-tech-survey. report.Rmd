@@ -1,0 +1,133 @@
+---
+title: "Mental Health in Tech - Analysis Report"
+author: "Ankita Pichuka"
+output: html_document
+---
+
+#Introduction
+
+This project explores mental health trends among tech workers based on the OSMI Mental Health in Tech Survey dataset. The goal is to identify patterns, key factors influencing treatment-seeking behavior, and to build a predictive model.
+
+
+```{r}
+#Lets load the libraries
+
+library(tidyverse)
+library(janitor)
+library(skimr)
+library(ggplot2)
+
+# Load the data
+mental_data <- read_csv("mental-health-tech-survey.csv")
+```
+
+##Data Cleaning
+```{r}
+# Clean column names
+mental_data <- mental_data %>% clean_names()
+
+# Quick look at structure
+glimpse(mental_data)
+
+# Basic summary
+skim(mental_data)
+
+# Check missing values
+colSums(is.na(mental_data))
+
+# Filter age to a valid range (18 to 65)
+mental_data <- mental_data %>% filter(age >= 18 & age <= 65)
+
+# View unique values in key columns
+unique(mental_data$gender)
+unique(mental_data$treatment)
+
+# Standardize gender values
+mental_data <- mental_data %>%
+  mutate(gender = str_to_lower(gender),
+         gender = case_when(
+           str_detect(gender, "female|f") ~ "female",
+           str_detect(gender, "male|m") ~ "male",
+           TRUE ~ "other"
+         ))
+
+# Check cleaned values
+table(mental_data$gender)
+```
+
+#-----Exploratory Analysis Plots-----
+```{r}
+#Treatment by Gender
+ggplot(mental_data, aes(x = gender, fill = treatment)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Mental Health Treatment by Gender",
+       y = "Percentage", x = "Gender") 
+
+# Treatment by Remote Work (Proportional Bar Chart)
+ggplot(mental_data, aes(x = remote_work, fill = treatment)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Treatment Seeking by Remote Work Status",
+       x = "Remote Work", y = "Proportion") 
+
+# Family History vs Treatment
+ggplot(mental_data, aes(x = family_history, fill = treatment)) +
+  geom_bar(position = "fill") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Effect of Family History on Treatment Seeking",
+       x = "Family History", y = "Proportion") +
+  theme_minimal()
+
+# Age Distribution
+ggplot(mental_data, aes(x = age)) +
+  geom_histogram(binwidth = 2, fill = "#4e79a7", color = "white") +
+  labs(title = "Age Distribution of Survey Participants",
+       x = "Age", y = "Count") +
+  theme_minimal()
+```
+
+#-----Chi_Square Tests-----
+```{r}
+#Gender vs Treatment
+chisq_gender <- chisq.test(table(mental_data$gender, mental_data$treatment))
+chisq_gender
+
+#Remote Work vs Treatment
+chisq_remote <- chisq.test(table(mental_data$remote_work, mental_data$treatment))
+chisq_remote
+
+#Family history vs Treatment
+chisq_family <- chisq.test(table(mental_data$family_history, mental_data$treatment))
+chisq_family
+```
+
+#----Logistic Regression to Predict Treatment----
+```{r}
+#Convert treatment to a binary variable
+mental_data <- mental_data %>%
+  mutate(treatment_bin = ifelse(treatment == "Yes", 1, 0))
+
+#Fit the logistic regression model
+log_model <- glm(treatment_bin ~ gender + age + family_history + remote_work,
+                 data = mental_data, family = "binomial")
+
+#View model summary
+summary(log_model)
+
+#Convert coefficients to odds ratios
+exp(coef(log_model))
+
+#Get confidence intervals for those odds ratios
+exp(confint(log_model))
+```
+
+#Conclusion
+
+- Family history is the strongest predictor of seeking treatment.
+
+- Gender also has a significant association with treatment-seeking.
+
+- Remote work status was not significantly related to treatment.
+
+- Our logistic model gives insights into how demographics and work conditions affect mental health help-seeking behavior.
